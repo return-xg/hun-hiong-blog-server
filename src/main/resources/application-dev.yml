@@ -1,0 +1,18 @@
+# ============================
+# 开发环境配置
+# ============================
+logging:
+  level:
+    root: INFO
+    com.hunhiong.blog: DEBUG
+    org.springframework.web: DEBUG
+    com.baomidou.mybatisplus: DEBUG
+
+# 启动时验证数据库连接（开发环境建议开启，快速发现问题）
+spring:
+  datasource:
+    hikari:
+      initialization-fail-timeout: 10000
+  data:
+    redis:
+      connect-timeout: 3000ms

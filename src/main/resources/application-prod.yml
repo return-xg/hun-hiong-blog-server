@@ -1,0 +1,12 @@
+# ============================
+# 生产环境配置
+# ============================
+logging:
+  level:
+    root: WARN
+    com.hunhiong.blog: INFO
+    com.baomidou.mybatisplus: WARN
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
