@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
-        <knife4j.version>4.5.0</knife4j.version>
+        <springdoc.version>2.8.6</springdoc.version>
         <jjwt.version>0.12.6</jjwt.version>
         <hutool.version>5.8.27</hutool.version>
     </properties>
@@ -84,11 +84,11 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Knife4j / OpenAPI (Spring Boot 3 + Jakarta) -->
+        <!-- SpringDoc OpenAPI（兼容 Spring Boot 3.5.x，Knife4j 4.5.0 暂不兼容 3.5） -->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <!-- JWT -->

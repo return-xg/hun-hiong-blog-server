@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Knife4j / OpenAPI 接口文档配置
+ * SpringDoc OpenAPI 接口文档配置
  *
- * <p>访问地址：{@code http://localhost:8080/doc.html}</p>
+ * <p>访问地址：{@code http://localhost:8080/swagger-ui.html}</p>
  *
  * @author hunhiong
  */

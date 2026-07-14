@@ -43,6 +43,12 @@ logs/
 .DS_Store
 Thumbs.db
 
+### Qoder ###
+.qoder/
+
 ### Local config ###
 application-local.yml
 application-local.properties
+
+### AGENTS.md ###
+AGENTS.md

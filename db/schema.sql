@@ -158,5 +158,5 @@ CREATE INDEX IF NOT EXISTS idx_blog_article_tag_tag_id ON blog_article_tag (tag_
 -- 生产环境请务必修改！
 -- ============================================================
 INSERT INTO sys_user (id, username, password, nickname, status)
-VALUES (1, 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMy.Mrq8KMEZj.kJ3uDQ8bZQzQHm6Pmq1iK', '管理员', 1)
+VALUES (1, 'admin', '$2a$10$8pW.zTP9lfWn.ehbz2aK2u3OsScojz0YhqLp0kyH.7Blsjdrf8M1m', '管理员', 1)
 ON CONFLICT (id) DO NOTHING;

@@ -30,7 +30,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:hun_hiong_blog}?stringtype=unspecified
-    username: ${DB_USERNAME:}
+    username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:}
     hikari:
       pool-name: BlogHikariPool
@@ -99,7 +99,7 @@ jwt:
   prefix: "Bearer "
 
 # ============================
-# Knife4j / SpringDoc
+# SpringDoc OpenAPI
 # ============================
 springdoc:
   api-docs:
@@ -109,13 +109,6 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
   default-flat-param-object: true
-
-knife4j:
-  enable: true
-  setting:
-    language: zh_cn
-    enable-footer: false
-    enable-document: true
 
 # ============================
 # 日志

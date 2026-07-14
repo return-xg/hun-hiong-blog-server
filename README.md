@@ -10,7 +10,7 @@
 - **ORM**: MyBatis-Plus 3.5.9
 - **数据库**: PostgreSQL
 - **缓存**: Redis
-- **API文档**: Knife4j (OpenAPI 3)
+- **API文档**: SpringDoc OpenAPI (Swagger UI)
 - **工具类**: Hutool 5.8.27
 - **构建工具**: Maven
 
@@ -93,10 +93,9 @@ java -jar target/hun-hiong-blog-server.jar
 
 ## API 文档
 
-启动项目后访问：
+启动项目后访问 Swagger UI：
 
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **Knife4j**: http://localhost:8080/doc.html
 
 ## 项目结构
 

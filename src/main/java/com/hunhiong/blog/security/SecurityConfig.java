@@ -37,9 +37,10 @@ public class SecurityConfig {
             "/webjars/**",
             "/favicon.ico",
             "/error",
-            // 登录 / 注册接口（后续开发时放开）
+            // 认证接口（登录 / 注册 / 刷新 Token）
             "/auth/login",
             "/auth/register",
+            "/auth/refresh",
             // 健康检查
             "/actuator/**"
     };
