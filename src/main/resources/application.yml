@@ -19,9 +19,12 @@ spring:
     name: hun-hiong-blog-server
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  output:
+    ANSI:
+      enabled: ALWAYS
 
   # Jackson
-  jackson:
+  Jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     default-property-inclusion: non_null
@@ -32,7 +35,7 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:hun_hiong_blog}?stringtype=unspecified
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:}
-    hikari:
+    Hikari:
       pool-name: BlogHikariPool
       minimum-idle: 5
       maximum-pool-size: 20
@@ -58,7 +61,7 @@ spring:
 
   # MVC
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant_path_matcher
 
 # ============================
@@ -101,7 +104,7 @@ jwt:
 # ============================
 # SpringDoc OpenAPI
 # ============================
-springdoc:
+spring doc:
   api-docs:
     enabled: true
     path: /v3/api-docs
@@ -121,11 +124,11 @@ logging:
     org.springframework.security: INFO
     com.baomidou.mybatisplus: WARN
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%thread]){faint} %clr(%-5level) %clr(%logger{36}){cyan} %clr(:){faint} %msg%n"
   file:
     name: logs/hun-hiong-blog-server.log
   logback:
-    rollingpolicy:
+    rolling policy:
       max-file-size: 50MB
       max-history: 30
       total-size-cap: 1GB
