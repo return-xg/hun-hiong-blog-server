@@ -33,7 +33,13 @@ public enum ErrorCode {
 
     /** 文章相关 */
     ARTICLE_NOT_FOUND(3001, "文章不存在"),
-    ARTICLE_STATUS_ERROR(3002, "文章状态异常");
+    ARTICLE_STATUS_ERROR(3002, "文章状态异常"),
+
+    /** 分类相关 */
+    CATEGORY_NOT_FOUND(3101, "分类不存在"),
+    CATEGORY_NAME_EXISTS(3102, "分类名称已存在"),
+    CATEGORY_SLUG_EXISTS(3103, "分类别名已存在"),
+    CATEGORY_HAS_ARTICLES(3104, "分类下存在文章，无法删除");
 
     /** 错误码 */
     private final int code;
