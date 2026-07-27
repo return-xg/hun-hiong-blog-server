@@ -28,6 +28,12 @@ public final class RedisConstants {
     /** 文章点赞量前缀  blog:article:like:{articleId} */
     public static final String ARTICLE_LIKE_PREFIX = PREFIX + "article:like:";
 
+    /** 文章浏览量增量 Hash  blog:article:view:delta  field=articleId, value=增量 */
+    public static final String ARTICLE_VIEW_DELTA_HASH = PREFIX + "article:view:delta";
+
+    /** 文章点赞量增量 Hash  blog:article:like:delta  field=articleId, value=增量 */
+    public static final String ARTICLE_LIKE_DELTA_HASH = PREFIX + "article:like:delta";
+
     /** 默认过期时间：30 分钟（秒） */
     public static final long DEFAULT_EXPIRE = 30 * 60L;
 

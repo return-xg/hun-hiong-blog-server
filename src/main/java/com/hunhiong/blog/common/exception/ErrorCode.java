@@ -34,6 +34,7 @@ public enum ErrorCode {
     /** 文章相关 */
     ARTICLE_NOT_FOUND(3001, "文章不存在"),
     ARTICLE_STATUS_ERROR(3002, "文章状态异常"),
+    ARTICLE_TITLE_EXISTS(3003, "文章标题已存在"),
 
     /** 分类相关 */
     CATEGORY_NOT_FOUND(3101, "分类不存在"),

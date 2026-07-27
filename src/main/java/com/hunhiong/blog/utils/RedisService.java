@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -162,6 +163,40 @@ public class RedisService {
         } catch (Exception e) {
             log.error("Redis increment 失败, key={}", key, e);
             return 0L;
+        }
+    }
+
+    // ============ Hash 操作 ============
+
+    /**
+     * Hash 字段递增
+     *
+     * @param key   Hash Key
+     * @param field 字段
+     * @param delta 增量
+     * @return 递增后的值
+     */
+    public Long incrementHash(String key, String field, long delta) {
+        try {
+            return redisTemplate.opsForHash().increment(key, field, delta);
+        } catch (Exception e) {
+            log.error("Redis incrementHash 失败, key={}, field={}", key, field, e);
+            return 0L;
+        }
+    }
+
+    /**
+     * 获取 Hash 中所有字段和值
+     *
+     * @param key Hash Key
+     * @return 字段与值的映射
+     */
+    public Map<Object, Object> getHashEntries(String key) {
+        try {
+            return redisTemplate.opsForHash().entries(key);
+        } catch (Exception e) {
+            log.error("Redis getHashEntries 失败, key={}", key, e);
+            return Map.of();
         }
     }
 }
