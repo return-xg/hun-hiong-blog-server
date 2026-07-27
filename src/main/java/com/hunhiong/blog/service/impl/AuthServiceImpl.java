@@ -15,7 +15,7 @@ import com.hunhiong.blog.security.JwtTokenProvider;
 import com.hunhiong.blog.service.AuthService;
 import com.hunhiong.blog.utils.RedisService;
 import com.hunhiong.blog.vo.LoginVO;
-import com.hunhiong.blog.vo.UserInfoVO;
+import com.hunhiong.blog.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -118,7 +118,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserInfoVO getCurrentUserInfo() {
+    public UserVO getCurrentUserInfo() {
         // 从安全上下文获取当前用户ID
         Long currentUserId = JwtAuthContext.getCurrentUserId();
         if (currentUserId == null) {
@@ -131,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
 
-        return sysUserConverter.sysUserToUserInfoVO(sysUser);
+        return sysUserConverter.toUserVO(sysUser);
     }
 
     /**
@@ -156,7 +156,7 @@ public class AuthServiceImpl implements AuthService {
         loginVO.setAccessToken(accessToken);
         loginVO.setRefreshToken(refreshToken);
         loginVO.setExpiresIn(jwtTokenProvider.getAccessTokenExpiration());
-        loginVO.setUserInfo(sysUserConverter.sysUserToUserInfoVO(sysUser));
+        loginVO.setUserInfo(sysUserConverter.toUserVO(sysUser));
 
         return loginVO;
     }

@@ -5,7 +5,7 @@ import com.hunhiong.blog.dto.LoginDTO;
 import com.hunhiong.blog.dto.RegisterDTO;
 import com.hunhiong.blog.service.AuthService;
 import com.hunhiong.blog.vo.LoginVO;
-import com.hunhiong.blog.vo.UserInfoVO;
+import com.hunhiong.blog.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,7 +65,7 @@ public class AuthController {
      */
     @Operation(summary = "获取当前用户信息")
     @GetMapping("/info")
-    public Result<UserInfoVO> getCurrentUserInfo() {
+    public Result<UserVO> getCurrentUserInfo() {
         return Result.success(authService.getCurrentUserInfo());
     }
 }

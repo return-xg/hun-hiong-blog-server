@@ -28,5 +28,5 @@ public class LoginVO implements Serializable {
     private long expiresIn;
 
     /** 用户信息 */
-    private UserInfoVO userInfo;
+    private UserVO userInfo;
 }

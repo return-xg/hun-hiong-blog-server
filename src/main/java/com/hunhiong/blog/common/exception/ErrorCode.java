@@ -30,6 +30,8 @@ public enum ErrorCode {
     USER_ALREADY_EXISTS(2004, "用户已存在"),
     USERNAME_OR_PASSWORD_EMPTY(2005, "用户名或密码不能为空"),
     USER_NOT_LOGIN(2006, "用户未登录"),
+    USER_CANNOT_DELETE_SELF(2007, "不能删除当前登录用户"),
+    USER_OLD_PASSWORD_ERROR(2008, "旧密码错误"),
 
     /** 文章相关 */
     ARTICLE_NOT_FOUND(3001, "文章不存在"),

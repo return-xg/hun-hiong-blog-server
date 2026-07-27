@@ -3,7 +3,7 @@ package com.hunhiong.blog.service;
 import com.hunhiong.blog.dto.LoginDTO;
 import com.hunhiong.blog.dto.RegisterDTO;
 import com.hunhiong.blog.vo.LoginVO;
-import com.hunhiong.blog.vo.UserInfoVO;
+import com.hunhiong.blog.vo.UserVO;
 
 /**
  * 认证服务接口
@@ -43,5 +43,5 @@ public interface AuthService {
      *
      * @return 用户信息
      */
-    UserInfoVO getCurrentUserInfo();
+    UserVO getCurrentUserInfo();
 }

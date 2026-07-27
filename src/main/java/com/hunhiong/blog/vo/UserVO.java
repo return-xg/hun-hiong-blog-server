@@ -4,16 +4,17 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户信息 VO
  *
- * <p>返回前端用户基本信息，不含密码等敏感字段。</p>
+ * <p>返回前端用户基本信息，不含密码。</p>
  *
  * @author hunhiong
  */
 @Data
-public class UserInfoVO implements Serializable {
+public class UserVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -32,4 +33,7 @@ public class UserInfoVO implements Serializable {
 
     /** 状态：1-启用，0-禁用 */
     private Integer status;
+
+    /** 创建时间 */
+    private LocalDateTime createTime;
 }
