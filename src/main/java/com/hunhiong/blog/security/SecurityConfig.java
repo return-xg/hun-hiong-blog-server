@@ -42,7 +42,9 @@ public class SecurityConfig {
             "/auth/register",
             "/auth/refresh",
             // 健康检查
-            "/actuator/**"
+            "/actuator/**",
+            // 文件访问路径（公开访问）
+            "/uploads/**"
     };
 
     @Bean

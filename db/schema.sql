@@ -153,6 +153,38 @@ CREATE INDEX IF NOT EXISTS idx_blog_article_tag_tag_id ON blog_article_tag (tag_
 
 
 -- ============================================================
+-- 6. 系统文件表 sys_file
+-- ============================================================
+CREATE TABLE IF NOT EXISTS sys_file (
+    id             BIGINT        PRIMARY KEY,
+    original_name  VARCHAR(255)  NOT NULL,
+    stored_name    VARCHAR(255)  NOT NULL,
+    storage_path   VARCHAR(500)  NOT NULL,
+    url            VARCHAR(500)  NOT NULL,
+    file_type      VARCHAR(64)   NOT NULL,
+    file_size      BIGINT        NOT NULL,
+    create_time    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted        SMALLINT      NOT NULL DEFAULT 0
+);
+
+COMMENT ON TABLE  sys_file IS '系统文件表';
+COMMENT ON COLUMN sys_file.id             IS '主键ID';
+COMMENT ON COLUMN sys_file.original_name  IS '原始文件名';
+COMMENT ON COLUMN sys_file.stored_name    IS '存储文件名（UUID）';
+COMMENT ON COLUMN sys_file.storage_path   IS '存储相对路径';
+COMMENT ON COLUMN sys_file.url            IS '文件访问URL';
+COMMENT ON COLUMN sys_file.file_type      IS '文件类型（MIME）';
+COMMENT ON COLUMN sys_file.file_size      IS '文件大小（字节）';
+COMMENT ON COLUMN sys_file.create_time    IS '创建时间';
+COMMENT ON COLUMN sys_file.update_time    IS '更新时间';
+COMMENT ON COLUMN sys_file.deleted        IS '逻辑删除：0-未删除，1-已删除';
+
+-- 索引：创建时间
+CREATE INDEX IF NOT EXISTS idx_sys_file_create_time ON sys_file (create_time);
+
+
+-- ============================================================
 -- 初始化数据（可选）：默认管理员账户
 -- 密码: admin123 （BCrypt 加密）
 -- 生产环境请务必修改！

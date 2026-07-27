@@ -114,6 +114,20 @@ spring doc:
   default-flat-param-object: true
 
 # ============================
+# 文件上传
+# ============================
+file:
+  upload:
+    # 本地存储根目录（相对路径或绝对路径）
+    storage-path: ${FILE_STORAGE_PATH:./uploads}
+    # 允许的文件类型（MIME）
+    allowed-types: image/jpeg,image/png,image/gif,image/webp
+    # 最大文件大小（字节）5MB
+    max-size: 5242880
+    # 文件访问 URL 前缀
+    url-prefix: /uploads
+
+# ============================
 # 日志
 # ============================
 logging:

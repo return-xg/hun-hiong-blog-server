@@ -20,6 +20,7 @@
 - 文章管理
 - 分类管理
 - 标签管理
+- 文件上传（本地存储，支持后期迁移OSS）
 - 评论系统
 - Redis缓存支持
 
@@ -89,6 +90,7 @@ java -jar target/hun-hiong-blog-server.jar
 | `REDIS_HOST` | localhost | Redis主机 |
 | `REDIS_PORT` | 6379 | Redis端口 |
 | `JWT_SECRET` | `<your-jwt-secret>` | JWT密钥（务必设置，≥32字符） |
+| `FILE_STORAGE_PATH` | ./uploads | 文件上传本地存储路径 |
 | `SPRING_PROFILES_ACTIVE` | dev | 激活的配置文件 |
 
 ## API 文档
@@ -113,6 +115,7 @@ src/main/java/com/hunhiong/blog/
 ├── converter/                    # 数据转换
 ├── dto/                          # 数据传输对象
 ├── entity/                       # 实体类
+├── file/                         # 文件存储模块（本地/OSS）
 ├── mapper/                       # 数据访问层
 ├── security/                     # 安全模块
 ├── service/                      # 业务逻辑层

@@ -16,3 +16,8 @@ spring:
   data:
     redis:
       connect-timeout: 3000ms
+
+# 开发环境文件存储路径
+file:
+  upload:
+    storage-path: ./uploads

@@ -46,7 +46,13 @@ public enum ErrorCode {
     TAG_NOT_FOUND(3201, "标签不存在"),
     TAG_NAME_EXISTS(3202, "标签名称已存在"),
     TAG_SLUG_EXISTS(3203, "标签别名已存在"),
-    TAG_HAS_ARTICLES(3204, "标签下存在文章，无法删除");
+    TAG_HAS_ARTICLES(3204, "标签下存在文章，无法删除"),
+
+    /** 文件相关 */
+    FILE_TYPE_NOT_ALLOWED(5001, "文件类型不支持"),
+    FILE_SIZE_EXCEEDED(5002, "文件大小超出限制"),
+    FILE_UPLOAD_FAILED(5003, "文件上传失败"),
+    FILE_NOT_FOUND(5004, "文件不存在");
 
     /** 错误码 */
     private final int code;
