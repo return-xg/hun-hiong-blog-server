@@ -39,7 +39,13 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND(3101, "分类不存在"),
     CATEGORY_NAME_EXISTS(3102, "分类名称已存在"),
     CATEGORY_SLUG_EXISTS(3103, "分类别名已存在"),
-    CATEGORY_HAS_ARTICLES(3104, "分类下存在文章，无法删除");
+    CATEGORY_HAS_ARTICLES(3104, "分类下存在文章，无法删除"),
+
+    /** 标签相关 */
+    TAG_NOT_FOUND(3201, "标签不存在"),
+    TAG_NAME_EXISTS(3202, "标签名称已存在"),
+    TAG_SLUG_EXISTS(3203, "标签别名已存在"),
+    TAG_HAS_ARTICLES(3204, "标签下存在文章，无法删除");
 
     /** 错误码 */
     private final int code;
