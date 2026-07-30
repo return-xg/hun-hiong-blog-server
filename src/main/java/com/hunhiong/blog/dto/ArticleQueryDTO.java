@@ -22,6 +22,9 @@ public class ArticleQueryDTO implements Serializable {
     /** 分类ID */
     private Long categoryId;
 
+    /** 标签ID（按标签筛选） */
+    private Long tagId;
+
     /** 状态：0-草稿，1-已发布，2-下线 */
     private Integer status;
 

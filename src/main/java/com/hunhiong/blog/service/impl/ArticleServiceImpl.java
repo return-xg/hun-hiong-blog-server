@@ -184,6 +184,20 @@ public class ArticleServiceImpl implements ArticleService {
         if (queryDTO.getStatus() != null) {
             wrapper.eq(BlogArticle::getStatus, queryDTO.getStatus());
         }
+        if (queryDTO.getTagId() != null) {
+            // 通过关联表查出该标签下所有文章ID，再用 in 条件过滤
+            LambdaQueryWrapper<BlogArticleTag> tagWrapper = new LambdaQueryWrapper<>();
+            tagWrapper.eq(BlogArticleTag::getTagId, queryDTO.getTagId());
+            List<BlogArticleTag> articleTags = blogArticleTagMapper.selectList(tagWrapper);
+            List<Long> articleIds = articleTags.stream()
+                    .map(BlogArticleTag::getArticleId)
+                    .toList();
+            if (articleIds.isEmpty()) {
+                // 该标签下没有文章，直接返回空结果
+                return new PageResult<>(queryDTO.getCurrent(), queryDTO.getSize(), 0L, Collections.emptyList());
+            }
+            wrapper.in(BlogArticle::getId, articleIds);
+        }
         wrapper.orderByDesc(BlogArticle::getCreateTime);
 
         Page<BlogArticle> result = blogArticleMapper.selectPage(page, wrapper);
