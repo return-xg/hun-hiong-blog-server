@@ -44,7 +44,14 @@ public class SecurityConfig {
             // 健康检查
             "/actuator/**",
             // 文件访问路径（公开访问）
-            "/uploads/**"
+            "/uploads/**",
+            // 前台博客公开只读接口
+            "/article/page",
+            "/article/{id}",
+            "/category/page",
+            "/category/{id}",
+            "/tag/list",
+            "/tag/{id}"
     };
 
     @Bean
