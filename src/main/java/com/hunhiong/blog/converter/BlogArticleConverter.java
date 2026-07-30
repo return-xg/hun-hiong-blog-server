@@ -29,6 +29,7 @@ public class BlogArticleConverter {
         vo.setId(entity.getId());
         vo.setTitle(entity.getTitle());
         vo.setSummary(entity.getSummary());
+        vo.setContent(entity.getContent());
         vo.setCoverUrl(entity.getCoverUrl());
         vo.setCategoryId(entity.getCategoryId());
         vo.setStatus(entity.getStatus());

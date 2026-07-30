@@ -1,5 +1,6 @@
 package com.hunhiong.blog.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serial;
@@ -28,6 +29,10 @@ public class ArticleVO implements Serializable {
 
     /** 文章摘要 */
     private String summary;
+
+    /** 文章内容（富文本 HTML），仅详情接口返回，列表接口为 null 时不序列化 */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String content;
 
     /** 封面图URL */
     private String coverUrl;

@@ -172,8 +172,9 @@ public class ArticleServiceImpl implements ArticleService {
         // 构建分页参数
         Page<BlogArticle> page = new Page<>(queryDTO.getCurrent(), queryDTO.getSize());
 
-        // 构建查询条件
+        // 构建查询条件，列表查询不查 content 列，避免返回大量富文本数据
         LambdaQueryWrapper<BlogArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(BlogArticle.class, field -> !"content".equals(field.getColumn()));
         if (StringUtils.hasText(queryDTO.getTitle())) {
             wrapper.like(BlogArticle::getTitle, queryDTO.getTitle());
         }
