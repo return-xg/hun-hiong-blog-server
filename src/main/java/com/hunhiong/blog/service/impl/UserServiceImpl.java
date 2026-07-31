@@ -80,15 +80,40 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
 
+        // 获取当前操作者ID
+        Long currentUserId = JwtAuthContext.getCurrentUserId();
+
+        // 角色修改校验：仅超级管理员（id=1）可修改角色
+        if (StringUtils.hasText(dto.getRole())) {
+            if (currentUserId == null || currentUserId != 1L) {
+                throw new BusinessException(ErrorCode.USER_ROLE_UPDATE_FORBIDDEN);
+            }
+            if (sysUser.getId() == 1L) {
+                throw new BusinessException(ErrorCode.USER_SUPER_ADMIN_ROLE_PROTECTED);
+            }
+            if (!"admin".equals(dto.getRole()) && !"user".equals(dto.getRole())) {
+                throw new BusinessException(ErrorCode.USER_ROLE_INVALID);
+            }
+            sysUser.setRole(dto.getRole());
+        }
+
+        // 状态修改校验：不允许禁用超级管理员和管理员
+        if (dto.getStatus() != null) {
+            if (sysUser.getId() == 1L) {
+                throw new BusinessException(ErrorCode.USER_SUPER_ADMIN_DISABLE_FORBIDDEN);
+            }
+            if ("admin".equals(sysUser.getRole())) {
+                throw new BusinessException(ErrorCode.USER_ADMIN_DISABLE_FORBIDDEN);
+            }
+            sysUser.setStatus(dto.getStatus());
+        }
+
         // 更新非空字段
         if (StringUtils.hasText(dto.getNickname())) {
             sysUser.setNickname(dto.getNickname());
         }
         if (dto.getAvatar() != null) {
             sysUser.setAvatar(dto.getAvatar());
-        }
-        if (dto.getStatus() != null) {
-            sysUser.setStatus(dto.getStatus());
         }
 
         sysUserMapper.updateById(sysUser);
@@ -117,6 +142,15 @@ public class UserServiceImpl implements UserService {
         SysUser sysUser = sysUserMapper.selectById(id);
         if (sysUser == null) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 不允许禁用超级管理员
+        if (sysUser.getId() == 1L) {
+            throw new BusinessException(ErrorCode.USER_SUPER_ADMIN_DISABLE_FORBIDDEN);
+        }
+        // 不允许禁用管理员
+        if ("admin".equals(sysUser.getRole())) {
+            throw new BusinessException(ErrorCode.USER_ADMIN_DISABLE_FORBIDDEN);
         }
 
         // 更新状态为禁用
@@ -159,6 +193,15 @@ public class UserServiceImpl implements UserService {
         SysUser sysUser = sysUserMapper.selectById(id);
         if (sysUser == null) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 不允许删除超级管理员
+        if (sysUser.getId() == 1L) {
+            throw new BusinessException(ErrorCode.USER_SUPER_ADMIN_DELETE_FORBIDDEN);
+        }
+        // 不允许删除管理员
+        if ("admin".equals(sysUser.getRole())) {
+            throw new BusinessException(ErrorCode.USER_ADMIN_DELETE_FORBIDDEN);
         }
 
         // 物理删除用户

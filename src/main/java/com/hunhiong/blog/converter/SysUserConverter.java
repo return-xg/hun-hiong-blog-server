@@ -29,6 +29,7 @@ public class SysUserConverter {
         vo.setUsername(sysUser.getUsername());
         vo.setNickname(sysUser.getNickname());
         vo.setAvatar(sysUser.getAvatar());
+        vo.setRole(sysUser.getRole());
         vo.setStatus(sysUser.getStatus());
         vo.setCreateTime(sysUser.getCreateTime());
         return vo;

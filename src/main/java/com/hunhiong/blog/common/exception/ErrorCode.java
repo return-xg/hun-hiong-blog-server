@@ -32,6 +32,13 @@ public enum ErrorCode {
     USER_NOT_LOGIN(2006, "用户未登录"),
     USER_CANNOT_DELETE_SELF(2007, "不能删除当前登录用户"),
     USER_OLD_PASSWORD_ERROR(2008, "旧密码错误"),
+    USER_ROLE_INVALID(2009, "角色值不合法"),
+    USER_ROLE_UPDATE_FORBIDDEN(2010, "只有超级管理员才能修改用户角色"),
+    USER_SUPER_ADMIN_ROLE_PROTECTED(2011, "不能修改超级管理员的角色"),
+    USER_SUPER_ADMIN_DELETE_FORBIDDEN(2012, "不能删除超级管理员"),
+    USER_ADMIN_DELETE_FORBIDDEN(2013, "不能删除管理员"),
+    USER_SUPER_ADMIN_DISABLE_FORBIDDEN(2014, "不能修改超级管理员的状态"),
+    USER_ADMIN_DISABLE_FORBIDDEN(2015, "不能禁用管理员"),
 
     /** 文章相关 */
     ARTICLE_NOT_FOUND(3001, "文章不存在"),

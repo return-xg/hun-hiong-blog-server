@@ -33,6 +33,9 @@ public class SysUser extends BaseEntity {
     /** 头像URL */
     private String avatar;
 
+    /** 角色：admin-管理员，user-普通用户 */
+    private String role;
+
     /** 状态：1-启用，0-禁用 */
     private Integer status;
 }

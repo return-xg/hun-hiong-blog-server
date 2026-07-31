@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS sys_user (
     password    VARCHAR(128) NOT NULL,
     nickname    VARCHAR(64),
     avatar      VARCHAR(255),
+    role        VARCHAR(20)  NOT NULL DEFAULT 'user',
     status      SMALLINT     NOT NULL DEFAULT 1,
     create_time TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -27,14 +28,16 @@ COMMENT ON COLUMN sys_user.username    IS '用户名';
 COMMENT ON COLUMN sys_user.password    IS '密码（BCrypt 加密）';
 COMMENT ON COLUMN sys_user.nickname    IS '昵称';
 COMMENT ON COLUMN sys_user.avatar      IS '头像URL';
+COMMENT ON COLUMN sys_user.role        IS '角色：admin-管理员，user-普通用户';
 COMMENT ON COLUMN sys_user.status      IS '状态：1-启用，0-禁用';
 COMMENT ON COLUMN sys_user.create_time IS '创建时间';
 COMMENT ON COLUMN sys_user.update_time IS '更新时间';
 
 -- 唯一索引：用户名
 CREATE UNIQUE INDEX IF NOT EXISTS uk_sys_user_username ON sys_user (username);
--- 普通索引：状态
+-- 普通索引：状态、角色
 CREATE INDEX IF NOT EXISTS idx_sys_user_status ON sys_user (status);
+CREATE INDEX IF NOT EXISTS idx_sys_user_role ON sys_user (role);
 
 
 -- ============================================================
@@ -189,6 +192,6 @@ CREATE INDEX IF NOT EXISTS idx_sys_file_create_time ON sys_file (create_time);
 -- 密码: admin123 （BCrypt 加密）
 -- 生产环境请务必修改！
 -- ============================================================
-INSERT INTO sys_user (id, username, password, nickname, status)
-VALUES (1, 'admin', '$2a$10$8pW.zTP9lfWn.ehbz2aK2u3OsScojz0YhqLp0kyH.7Blsjdrf8M1m', '管理员', 1)
+INSERT INTO sys_user (id, username, password, nickname, role, status)
+VALUES (1, 'admin', '$2a$10$8pW.zTP9lfWn.ehbz2aK2u3OsScojz0YhqLp0kyH.7Blsjdrf8M1m', '管理员', 'admin', 1)
 ON CONFLICT (id) DO NOTHING;

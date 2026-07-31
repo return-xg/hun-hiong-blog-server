@@ -76,6 +76,7 @@ public class AuthServiceImpl implements AuthService {
         sysUser.setUsername(registerDTO.getUsername());
         sysUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         sysUser.setNickname(registerDTO.getNickname());
+        sysUser.setRole("user");
         sysUser.setStatus(StatusEnum.ENABLED.getCode());
         sysUserMapper.insert(sysUser);
 

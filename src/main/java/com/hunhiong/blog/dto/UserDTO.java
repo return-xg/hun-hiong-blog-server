@@ -25,6 +25,9 @@ public class UserDTO implements Serializable {
     @Size(max = 255, message = "头像URL长度不能超过255")
     private String avatar;
 
+    /** 角色：admin-管理员，user-普通用户 */
+    private String role;
+
     /** 状态：1-启用，0-禁用 */
     private Integer status;
 
