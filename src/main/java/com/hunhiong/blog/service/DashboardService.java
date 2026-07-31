@@ -1,8 +1,9 @@
 package com.hunhiong.blog.service;
 
+import com.hunhiong.blog.vo.CategoryDistributionVO;
 import com.hunhiong.blog.vo.DashboardOverviewVO;
 import com.hunhiong.blog.vo.DashboardRecentArticleVO;
-import com.hunhiong.blog.vo.DashboardTrendVO;
+import com.hunhiong.blog.vo.TopArticleVO;
 
 import java.util.List;
 
@@ -23,11 +24,18 @@ public interface DashboardService {
     DashboardOverviewVO getOverview();
 
     /**
-     * 获取近 7 天浏览趋势
+     * 获取各分类下的已发布文章数量
      *
-     * @return 7 天的日期与浏览量列表，按日期升序，无数据的日期补 0
+     * @return 分类文章分布列表，按文章数降序
      */
-    List<DashboardTrendVO> getTrend();
+    List<CategoryDistributionVO> getCategoryDistribution();
+
+    /**
+     * 获取浏览量最高的 5 篇已发布文章
+     *
+     * @return 热门文章列表，按浏览量降序
+     */
+    List<TopArticleVO> getTopArticles();
 
     /**
      * 获取最近发布的 8 篇文章

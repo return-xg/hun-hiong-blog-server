@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -59,18 +58,30 @@ public interface DashboardMapper {
     long sumLikeCount();
 
     /**
-     * 查询最近 7 天每天的浏览量合计
+     * 查询各分类下的已发布文章数量，按文章数降序排列
      *
-     * @param startTime 起始时间（7 天前的零点）
-     * @return 每行包含 date（MM-dd 格式）和 view_count 字段
+     * @return 每行包含 category_name、article_count 字段
      */
-    @Select("SELECT TO_CHAR(DATE_TRUNC('day', create_time AT TIME ZONE 'Asia/Shanghai'), 'MM-DD') AS date, "
-            + "COALESCE(SUM(view_count), 0) AS view_count "
+    @Select("SELECT c.name AS category_name, COUNT(a.id) AS article_count "
+            + "FROM blog_category c "
+            + "LEFT JOIN blog_article a ON a.category_id = c.id AND a.status = 1 AND a.deleted = 0 "
+            + "WHERE c.deleted = 0 "
+            + "GROUP BY c.id, c.name "
+            + "HAVING COUNT(a.id) > 0 "
+            + "ORDER BY article_count DESC")
+    List<Map<String, Object>> selectCategoryDistribution();
+
+    /**
+     * 查询浏览量最高的 5 篇已发布文章
+     *
+     * @return 每行包含 id、title、view_count 字段
+     */
+    @Select("SELECT CAST(id AS VARCHAR) AS id, title, view_count "
             + "FROM blog_article "
-            + "WHERE create_time >= #{startTime} AND deleted = 0 "
-            + "GROUP BY DATE_TRUNC('day', create_time AT TIME ZONE 'Asia/Shanghai') "
-            + "ORDER BY DATE_TRUNC('day', create_time AT TIME ZONE 'Asia/Shanghai')")
-    List<Map<String, Object>> selectDailyViewCount(@Param("startTime") LocalDateTime startTime);
+            + "WHERE status = 1 AND deleted = 0 "
+            + "ORDER BY view_count DESC "
+            + "LIMIT 5")
+    List<Map<String, Object>> selectTopArticles();
 
     /**
      * 查询最近发布的 8 篇文章（已发布状态），左连接分类表取分类名
@@ -85,4 +96,22 @@ public interface DashboardMapper {
             + "ORDER BY a.create_time DESC "
             + "LIMIT 8")
     List<Map<String, Object>> selectRecentArticles();
+
+    /**
+     * 批量查询文章关联的标签信息
+     *
+     * @param articleIds 文章ID列表
+     * @return 每行包含 article_id、tag_id、tag_name 字段
+     */
+    @Select("<script>" +
+            "SELECT CAST(at.article_id AS VARCHAR) AS article_id, " +
+            "CAST(t.id AS VARCHAR) AS tag_id, t.name AS tag_name " +
+            "FROM blog_article_tag at " +
+            "INNER JOIN blog_tag t ON at.tag_id = t.id AND t.deleted = 0 " +
+            "WHERE at.article_id IN " +
+            "<foreach item='id' collection='articleIds' open='(' separator=',' close=')'>" +
+            "#{id}" +
+            "</foreach>" +
+            "</script>")
+    List<Map<String, Object>> selectTagsByArticleIds(@Param("articleIds") List<String> articleIds);
 }

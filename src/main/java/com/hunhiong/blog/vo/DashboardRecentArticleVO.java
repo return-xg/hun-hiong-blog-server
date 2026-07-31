@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 仪表盘最近文章 VO
@@ -33,4 +34,7 @@ public class DashboardRecentArticleVO implements Serializable {
 
     /** 创建时间，格式 yyyy-MM-dd HH:mm:ss */
     private LocalDateTime createTime;
+
+    /** 关联标签列表 */
+    private List<TagSimpleVO> tags;
 }

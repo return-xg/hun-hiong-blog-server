@@ -2,9 +2,10 @@ package com.hunhiong.blog.controller;
 
 import com.hunhiong.blog.common.result.Result;
 import com.hunhiong.blog.service.DashboardService;
+import com.hunhiong.blog.vo.CategoryDistributionVO;
 import com.hunhiong.blog.vo.DashboardOverviewVO;
 import com.hunhiong.blog.vo.DashboardRecentArticleVO;
-import com.hunhiong.blog.vo.DashboardTrendVO;
+import com.hunhiong.blog.vo.TopArticleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * 仪表盘控制器
  *
- * <p>提供概览统计、浏览趋势、最近文章等仪表盘数据接口，所有接口需要登录鉴权。</p>
+ * <p>提供概览统计、分类分布、热门文章、最近文章等仪表盘数据接口，所有接口需要登录鉴权。</p>
  *
  * @author hunhiong
  */
@@ -39,12 +40,21 @@ public class DashboardController {
     }
 
     /**
-     * 获取近 7 天浏览趋势
+     * 获取各分类下的已发布文章数量
      */
-    @Operation(summary = "近 7 天浏览趋势")
-    @GetMapping("/trend")
-    public Result<List<DashboardTrendVO>> trend() {
-        return Result.success(dashboardService.getTrend());
+    @Operation(summary = "分类文章分布")
+    @GetMapping("/category-distribution")
+    public Result<List<CategoryDistributionVO>> categoryDistribution() {
+        return Result.success(dashboardService.getCategoryDistribution());
+    }
+
+    /**
+     * 获取浏览量最高的 5 篇文章
+     */
+    @Operation(summary = "热门文章 Top 5")
+    @GetMapping("/top-articles")
+    public Result<List<TopArticleVO>> topArticles() {
+        return Result.success(dashboardService.getTopArticles());
     }
 
     /**
