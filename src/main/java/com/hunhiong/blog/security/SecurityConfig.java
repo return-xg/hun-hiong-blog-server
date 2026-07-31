@@ -48,8 +48,12 @@ public class SecurityConfig {
             // 前台博客公开只读接口
             "/article/page",
             "/article/{id}",
+            "/article/{id}/view",
+            "/article/{id}/like",
             "/category/page",
             "/category/{id}",
+            "/category/list",
+            "/tag/page",
             "/tag/list",
             "/tag/{id}"
     };

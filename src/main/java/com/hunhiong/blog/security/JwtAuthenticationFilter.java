@@ -35,6 +35,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+
+        // 白名单路径：不校验 Token，直接放行
+        if ("/article/page".equals(path)
+                || path.matches("/article/\\d+")
+                || path.matches("/article/\\d+/view")
+                || path.matches("/article/\\d+/like")
+                || "/category/page".equals(path)
+                || path.matches("/category/\\d+")
+                || "/category/list".equals(path)
+                || "/tag/page".equals(path)
+                || "/tag/list".equals(path)
+                || path.matches("/tag/\\d+")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 非白名单路径才走 Token 校验
         try {
             String bearerToken = request.getHeader(SecurityConstants.TOKEN_HEADER);
             String token = jwtTokenProvider.resolveToken(bearerToken);
