@@ -6,8 +6,10 @@ import com.hunhiong.blog.common.enums.StatusEnum;
 import com.hunhiong.blog.common.exception.BusinessException;
 import com.hunhiong.blog.common.exception.ErrorCode;
 import com.hunhiong.blog.converter.SysUserConverter;
+import com.hunhiong.blog.dto.ChangePasswordDTO;
 import com.hunhiong.blog.dto.LoginDTO;
 import com.hunhiong.blog.dto.RegisterDTO;
+import com.hunhiong.blog.dto.UpdateProfileDTO;
 import com.hunhiong.blog.entity.SysUser;
 import com.hunhiong.blog.mapper.SysUserMapper;
 import com.hunhiong.blog.security.JwtAuthContext;
@@ -133,6 +135,60 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return sysUserConverter.toUserVO(sysUser);
+    }
+
+    @Override
+    public UserVO updateProfile(UpdateProfileDTO updateProfileDTO) {
+        // 获取当前登录用户 ID
+        Long currentUserId = JwtAuthContext.getCurrentUserId();
+        if (currentUserId == null) {
+            throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
+        }
+
+        // 查询当前用户
+        SysUser sysUser = sysUserMapper.selectById(currentUserId);
+        if (sysUser == null) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 更新非空字段
+        if (updateProfileDTO.getNickname() != null) {
+            sysUser.setNickname(updateProfileDTO.getNickname());
+        }
+        if (updateProfileDTO.getAvatar() != null) {
+            sysUser.setAvatar(updateProfileDTO.getAvatar());
+        }
+        sysUserMapper.updateById(sysUser);
+
+        log.info("用户修改个人信息: userId={}", currentUserId);
+
+        return sysUserConverter.toUserVO(sysUser);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordDTO changePasswordDTO) {
+        // 获取当前登录用户 ID
+        Long currentUserId = JwtAuthContext.getCurrentUserId();
+        if (currentUserId == null) {
+            throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
+        }
+
+        // 查询当前用户
+        SysUser sysUser = sysUserMapper.selectById(currentUserId);
+        if (sysUser == null) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 校验旧密码
+        if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), sysUser.getPassword())) {
+            throw new BusinessException(ErrorCode.USER_OLD_PASSWORD_ERROR);
+        }
+
+        // 加密新密码并更新
+        sysUser.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        sysUserMapper.updateById(sysUser);
+
+        log.info("用户修改密码成功: userId={}", currentUserId);
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.hunhiong.blog.service;
 
+import com.hunhiong.blog.dto.ChangePasswordDTO;
 import com.hunhiong.blog.dto.LoginDTO;
 import com.hunhiong.blog.dto.RegisterDTO;
+import com.hunhiong.blog.dto.UpdateProfileDTO;
 import com.hunhiong.blog.vo.LoginVO;
 import com.hunhiong.blog.vo.UserVO;
 
@@ -44,4 +46,19 @@ public interface AuthService {
      * @return 用户信息
      */
     UserVO getCurrentUserInfo();
+
+    /**
+     * 修改个人信息
+     *
+     * @param updateProfileDTO 修改个人信息请求参数
+     * @return 更新后的用户信息
+     */
+    UserVO updateProfile(UpdateProfileDTO updateProfileDTO);
+
+    /**
+     * 修改密码
+     *
+     * @param changePasswordDTO 修改密码请求参数
+     */
+    void changePassword(ChangePasswordDTO changePasswordDTO);
 }

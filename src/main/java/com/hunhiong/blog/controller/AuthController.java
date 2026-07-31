@@ -1,8 +1,10 @@
 package com.hunhiong.blog.controller;
 
 import com.hunhiong.blog.common.result.Result;
+import com.hunhiong.blog.dto.ChangePasswordDTO;
 import com.hunhiong.blog.dto.LoginDTO;
 import com.hunhiong.blog.dto.RegisterDTO;
+import com.hunhiong.blog.dto.UpdateProfileDTO;
 import com.hunhiong.blog.service.AuthService;
 import com.hunhiong.blog.vo.LoginVO;
 import com.hunhiong.blog.vo.UserVO;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,5 +70,24 @@ public class AuthController {
     @GetMapping("/info")
     public Result<UserVO> getCurrentUserInfo() {
         return Result.success(authService.getCurrentUserInfo());
+    }
+
+    /**
+     * 修改个人信息
+     */
+    @Operation(summary = "修改个人信息")
+    @PutMapping("/profile")
+    public Result<UserVO> updateProfile(@Valid @RequestBody UpdateProfileDTO updateProfileDTO) {
+        return Result.success(authService.updateProfile(updateProfileDTO));
+    }
+
+    /**
+     * 修改密码
+     */
+    @Operation(summary = "修改密码")
+    @PutMapping("/password")
+    public Result<Void> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
+        authService.changePassword(changePasswordDTO);
+        return Result.success();
     }
 }
