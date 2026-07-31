@@ -59,6 +59,12 @@ spring:
           min-idle: 2
           max-wait: 3000ms
 
+  # 文件上传
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
   # MVC
   mvc:
     path match:
