@@ -188,6 +188,42 @@ CREATE INDEX IF NOT EXISTS idx_sys_file_create_time ON sys_file (create_time);
 
 
 -- ============================================================
+-- 7. 博客音乐表 blog_music
+-- ============================================================
+CREATE TABLE IF NOT EXISTS blog_music (
+    id          BIGINT        PRIMARY KEY,
+    file_id     BIGINT,
+    title       VARCHAR(255)  NOT NULL,
+    artist      VARCHAR(255),
+    cover       VARCHAR(500),
+    url         VARCHAR(500)  NOT NULL,
+    duration    INTEGER,
+    sort        INTEGER       NOT NULL DEFAULT 0,
+    status      SMALLINT      NOT NULL DEFAULT 1,
+    create_time TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted     SMALLINT      NOT NULL DEFAULT 0
+);
+
+COMMENT ON TABLE  blog_music IS '博客音乐表';
+COMMENT ON COLUMN blog_music.id          IS '主键ID';
+COMMENT ON COLUMN blog_music.file_id     IS '关联文件ID';
+COMMENT ON COLUMN blog_music.title       IS '歌曲名称';
+COMMENT ON COLUMN blog_music.artist      IS '歌手';
+COMMENT ON COLUMN blog_music.cover       IS '封面地址';
+COMMENT ON COLUMN blog_music.url         IS '音乐文件地址';
+COMMENT ON COLUMN blog_music.duration    IS '歌曲时长（秒）';
+COMMENT ON COLUMN blog_music.sort        IS '排序（升序）';
+COMMENT ON COLUMN blog_music.status      IS '状态：1-启用，0-禁用';
+COMMENT ON COLUMN blog_music.create_time IS '创建时间';
+COMMENT ON COLUMN blog_music.update_time IS '更新时间';
+COMMENT ON COLUMN blog_music.deleted     IS '逻辑删除：0-未删除，1-已删除';
+
+CREATE INDEX IF NOT EXISTS idx_blog_music_sort   ON blog_music (sort);
+CREATE INDEX IF NOT EXISTS idx_blog_music_status ON blog_music (status);
+
+
+-- ============================================================
 -- 初始化数据（可选）：默认管理员账户
 -- 密码: admin123 （BCrypt 加密）
 -- 生产环境请务必修改！

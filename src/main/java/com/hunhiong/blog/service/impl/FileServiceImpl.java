@@ -1,6 +1,7 @@
 package com.hunhiong.blog.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.hunhiong.blog.common.enums.FileType;
 import com.hunhiong.blog.common.exception.BusinessException;
 import com.hunhiong.blog.common.exception.ErrorCode;
 import com.hunhiong.blog.config.FileUploadConfig;
@@ -38,19 +39,28 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public FileVO upload(MultipartFile file) {
+        return upload(file, FileType.IMAGE);
+    }
+
+    @Override
+    public FileVO upload(MultipartFile file, FileType fileType) {
         // 校验文件是否为空
         if (file == null || file.isEmpty()) {
             throw new BusinessException(ErrorCode.FILE_UPLOAD_FAILED);
         }
 
+        // 根据类型获取允许的 MIME 类型和最大文件大小
+        List<String> allowedTypes = getAllowedTypes(fileType);
+        long maxSize = getMaxSize(fileType);
+
         // 校验文件类型
         String contentType = file.getContentType();
-        if (contentType == null || !uploadConfig.getAllowedTypes().contains(contentType)) {
+        if (contentType == null || !allowedTypes.contains(contentType)) {
             throw new BusinessException(ErrorCode.FILE_TYPE_NOT_ALLOWED);
         }
 
         // 校验文件大小
-        if (file.getSize() > uploadConfig.getMaxSize()) {
+        if (file.getSize() > maxSize) {
             throw new BusinessException(ErrorCode.FILE_SIZE_EXCEEDED);
         }
 
@@ -59,9 +69,9 @@ public class FileServiceImpl implements FileService {
         String extension = getExtension(originalFilename);
         String storedName = IdUtil.fastSimpleUUID() + extension;
 
-        // 生成相对路径：日期目录 / 文件名
+        // 生成相对路径：类型前缀 / 日期目录 / 文件名
         String dateDir = LocalDate.now().format(DATE_FORMATTER);
-        String relativePath = dateDir + "/" + storedName;
+        String relativePath = fileType.getPathPrefix() + "/" + dateDir + "/" + storedName;
 
         // 调用存储服务
         fileStorageService.store(file, relativePath);
@@ -79,7 +89,7 @@ public class FileServiceImpl implements FileService {
         sysFile.setFileSize(file.getSize());
         sysFileMapper.insert(sysFile);
 
-        log.info("文件上传成功: originalName={}, url={}", originalFilename, fileUrl);
+        log.info("文件上传成功: type={}, originalName={}, url={}", fileType.name(), originalFilename, fileUrl);
 
         // 构建返回 VO
         FileVO vo = new FileVO();
@@ -123,5 +133,31 @@ public class FileServiceImpl implements FileService {
             return "";
         }
         return filename.substring(filename.lastIndexOf("."));
+    }
+
+    /**
+     * 根据文件类型获取允许的 MIME 类型列表
+     *
+     * @param fileType 文件类型
+     * @return 允许的 MIME 类型列表
+     */
+    private List<String> getAllowedTypes(FileType fileType) {
+        return switch (fileType) {
+            case MUSIC -> uploadConfig.getAllowedMusicTypes();
+            default -> uploadConfig.getAllowedTypes();
+        };
+    }
+
+    /**
+     * 根据文件类型获取最大文件大小
+     *
+     * @param fileType 文件类型
+     * @return 最大文件大小（字节）
+     */
+    private long getMaxSize(FileType fileType) {
+        return switch (fileType) {
+            case MUSIC -> uploadConfig.getMaxMusicSize();
+            default -> uploadConfig.getMaxSize();
+        };
     }
 }

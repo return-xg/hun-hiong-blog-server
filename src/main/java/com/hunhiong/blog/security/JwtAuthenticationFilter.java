@@ -47,7 +47,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || "/category/list".equals(path)
                 || "/tag/page".equals(path)
                 || "/tag/list".equals(path)
-                || path.matches("/tag/\\d+")) {
+                || path.matches("/tag/\\d+")
+                || "/music/list".equals(path)
+                || "/music/page".equals(path)
+                || path.matches("/music/\\d+")) {
             filterChain.doFilter(request, response);
             return;
         }

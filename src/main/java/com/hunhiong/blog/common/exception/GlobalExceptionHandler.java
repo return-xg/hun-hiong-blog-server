@@ -16,6 +16,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -136,6 +137,15 @@ public class GlobalExceptionHandler {
     public Result<Void> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.warn("文件上传大小超限: {}", e.getMessage());
         return Result.failed(ErrorCode.FILE_SIZE_EXCEEDED.getCode(), ErrorCode.FILE_SIZE_EXCEEDED.getMessage());
+    }
+
+    /**
+     * 缺少文件上传部分
+     */
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public Result<Void> handleMissingServletRequestPartException(MissingServletRequestPartException e) {
+        log.warn("缺少文件上传部分: {}", e.getRequestPartName());
+        return Result.failed(ResultCode.PARAM_ERROR, "缺少文件: " + e.getRequestPartName());
     }
 
     /**

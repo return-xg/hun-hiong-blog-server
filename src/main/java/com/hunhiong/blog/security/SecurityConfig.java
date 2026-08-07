@@ -1,8 +1,13 @@
 package com.hunhiong.blog.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hunhiong.blog.common.result.Result;
+import com.hunhiong.blog.common.result.ResultCode;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +32,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final ObjectMapper objectMapper;
 
     /** Knife4j / Swagger 相关路径 */
     private static final String[] WHITELIST = {
@@ -55,7 +61,11 @@ public class SecurityConfig {
             "/category/list",
             "/tag/page",
             "/tag/list",
-            "/tag/{id}"
+            "/tag/{id}",
+            // 音乐公开接口
+            "/music/list",
+            "/music/page",
+            "/music/{id}"
     };
 
     @Bean
@@ -71,6 +81,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST).permitAll()
                         .anyRequest().authenticated())
+                // 异常处理：未认证返回 401，而非默认的 403
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(
+                                    objectMapper.writeValueAsString(Result.failed(ResultCode.UNAUTHORIZED))
+                            );
+                        }))
                 // 添加 JWT 过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

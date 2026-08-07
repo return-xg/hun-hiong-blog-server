@@ -57,6 +57,9 @@ public enum ErrorCode {
     TAG_SLUG_EXISTS(3203, "标签别名已存在"),
     TAG_HAS_ARTICLES(3204, "标签下存在文章，无法删除"),
 
+    /** 音乐相关 */
+    MUSIC_NOT_FOUND(3301, "音乐不存在"),
+
     /** 文件相关 */
     FILE_TYPE_NOT_ALLOWED(5001, "文件类型不支持"),
     FILE_SIZE_EXCEEDED(5002, "文件大小超出限制"),
